@@ -1,20 +1,19 @@
 # app.py
 from flask import Flask, jsonify
-from flask_cors import CORS  # Allow Cross-Origin Resource Sharing
+from flask_cors import CORS
 from pymongo import MongoClient
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
 client = MongoClient('mongodb://localhost:27017/')
-db = client['digicanva']  # Replace 'your_database' with your actual database name
-collection = db['blogs']  # Replace 'blogs' with your actual collection name
+db = client['digicanva']
+collection = db['Blogs']
 
-@app.route('/blog/<blog_id>', methods=['GET'])
-def get_blog(blog_id):
-    blog = collection.find_one({'_id': blog_id})
+@app.route('/blog/<blog_name>', methods=['GET'])
+def get_blog(blog_name):
+    blog = collection.find_one({'name': blog_name})
     if blog:
         response = {
-            'id': str(blog['_id']),
             'name': blog['name'],
             'tag': blog['tag']
         }
